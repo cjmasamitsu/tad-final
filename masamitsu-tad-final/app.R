@@ -12,6 +12,7 @@ library(tidytext)
 library(purrr)
 library(naivebayes)
 library(e1071)
+library(DT)
 
 
 # Pull Tweets  ------------------------------------------------------------
@@ -229,10 +230,10 @@ results = data.frame(
   Actuals = dependent
 )
 
-df <- select(sentweets, name, party, region)
+df <- select(sentweets, name, party, region, text)
 df$category <- results$Predictions
 df$category <- as.character(df$category)
-
+table <- df
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -277,6 +278,7 @@ ui <- fluidPage(
     
     h4("Senatorial Tweets by Rhetoric"),
     plotOutput("categoryBar1"),
+    dataTableOutput("table"),
     tags$br(),
     tags$br(),
     tags$br(),
@@ -354,6 +356,8 @@ server <- function(input, output) {
         theme_minimal()
       
   })
+    output$table <- renderDataTable(table)
+    
 }
     
 

@@ -2,7 +2,7 @@
 
 # Load Packages -----------------------------------------------------------
 
-# library(shiny)
+library(shiny)
 library(tidyverse)
 library(quanteda)
 library(twitteR)
@@ -138,7 +138,7 @@ library(e1071)
 
 # Data Preparation --------------------------------------------------------
 
-sentweets <- read_csv("sentweets.csv")
+sentweets <- read_csv("https://raw.githubusercontent.com/cjmasamitsu/tad-final/main/masamitsu-tad-final/sentweets.csv")
 glimpse(sentweets)
 
 # Change names to be uniform
@@ -239,6 +239,8 @@ ui <- fluidPage(
     # Application title
   tags$br(),
     titlePanel("What rhetoric are United States Senators using on Twitter?", "Twitter Rhetoric"),
+  tags$i("Text as Data Final | Casey Masamitsu | Spring 2022"),
+  tags$br(),
   tags$br(),
     fluidRow(
       column(4,

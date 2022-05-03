@@ -238,7 +238,7 @@ ui <- fluidPage(
 
     # Application title
   tags$br(),
-    titlePanel("What type of rhetoric are United States Senators using on Twitter?", "Twitter Rhetoric"),
+    titlePanel("What rhetoric are United States Senators using on Twitter?", "Twitter Rhetoric"),
   tags$br(),
     fluidRow(
       column(4,
@@ -267,7 +267,7 @@ ui <- fluidPage(
     # Bar Chart
     tags$br(),
     tags$hr(),
-    p("United States Senators are using Twitter in different ways. Some senators use Twitter as a platform to communicate upcoming events and policy updates. Other senators use Twitter to criticize or praise others. The dashboard below demonstrates how each senator is using Twitter individually as well as by region and party affiliation."),
+    p("United States Senators are using Twitter in different ways. Some senators use Twitter to communicate upcoming events and policy updates. Other senators use Twitter to criticize or praise others. The dashboard below demonstrates how each senator uses Twitter individually, by region, and by party affiliation."),
     tags$hr(),
     tags$br(),
     tags$br(),
@@ -280,18 +280,18 @@ ui <- fluidPage(
     
     tags$hr(),
     h4("Methodological Approach:"),
-    p("The goal of the dashboard is to address the question, “What rhetoric are United States using when talking about others on Twitter?”* First, the Twitter API was used to download senators’ Tweets. Next, a portion of the Tweets were categorized manually, and finally, Naïve Bayes was conducted to predict the category of the remaining Tweets. "),
+    p("The goal of the dashboard is to address the question, “What rhetoric are United States Senators using when talking about others on Twitter?” First, the Twitter API was used to download senators’ Tweets. Next, a portion of the Tweets were categorized manually, and a Naïve Bayes model predicted the remaining labels. "),
     tags$br(),
     
     tags$hr(),
-    h4("Data Collection:"),
-    p("The first step in downloading senators’ Tweets was creating a list of all 100 senators’ Twitter handles. Afterward, the maximum allowable requests through the Twitter API were utilized to download as many Tweets per senator as possible. The result is approximately 115 Tweets per senator, which was scraped on April 28th, 2022. The final dataset includes 11,287 Tweets from all 100 senators. While 11,500 Tweets were expected, some senators did not have 115 Tweets and Bernie Sander’s Twitter handle recently changed so only one Tweet was included."), 
-    p("In addition, not all senators’ names were in the same format. For example, some senators chose Twitter names like “Sen. Susan Collins,” or “Senator Bob Menendez,” but others chose solely their name. All names were updated to reflect solely the senator’s first and last name."),
+    h4("Data Collection and Preparation:"),
+    p("The first step in downloading senators’ Tweets was creating a list of all 100 senators’ Twitter handles. The Twitter API limit only allowed for approximately 12,000 requests at one time. As a result, the analysis contains approximately 115 Tweets per senator. The final dataset includes 11,287 Tweets from all 100 senators. Some senators did not have 115 Tweets, and Bernie Sander’s Twitter handle recently changed, accounting for the \"missing\" 213 Tweets."),
+    p("In addition, not all senators' names were in the same format. For example, several senators prefaced their Twitter names with \"Senator\" or \"Sen.\" but others chose their names solely. All names were updated to exclusively reflect the senator's first and last name."),
     tags$br(),
     
     tags$hr(),
     h4("Methods of Analysis:"),
-    p("Categorizing senatorial Tweets into three distinct categories was a difficult endeavor. For simplicity, the categories chosen are only reflective of their rhetoric about another individual or group."),
+    p("Categorizing senatorial Tweets into three distinct categories was a challenging endeavor. For simplicity, the categories chosen are only reflective of their rhetoric about another individual or group."),
     p("Below is an example of how the Tweets were categorized manually:"),
     tags$ul(
       tags$li('“Climate change is bad” | Neutral'),
@@ -300,13 +300,13 @@ ui <- fluidPage(
       tags$li('“The Biden Administration’s handling of climate change is good.” | Praise')
     ),
     p("In addition to adding a “category” column, “region” and “party” columns were also added manually for dashboard filtering. "),
-    p("In order to use Naïve Bayes to predict the majority of Tweets, approximately 20 Tweets per senator were manually labeled as “critical,” “neutral,” or “praise. Once these Tweets were appropriately labeled, Naïve Bayes was conducted to predict the rest. In the end, the predictions were added to a dataframe with the “name,” “region,” and “party” variables.  This dataset is used to display the results in a bar plot in the above dashboard. "),
+    p("Approximately 20 Tweets per senator were manually labeled as \"critical,\" \"neutral,\" or \"praise\" to prepare for the Naïve Bayes model. Once these Tweets were appropriately labeled, the Naïve Bayes model predicted the remaining labels. In the end, a final dataset represented the predictions, \"name,\" \"region,\" and \"party\" variables. This dataset contains the data reflected in the dashboard above."),
     tags$br(),
  
     tags$hr(),
     h4("Methodology Evaluation:"),
-    p("Once over 15% of the Tweets were manually categorized, the Naïve Bayes model performed well in predicting the category. Comparing the actual (manually-entered) category with the predicted category shows that majority of the Tweets were predicted correctly. By proxy, manually-entered categories are subject to subconscious bias. The three categories were specifically chosen to maintain a bipartisan point of view. The Tweet labels “critical,” “neutral,” and “praise” fit objectively in those categories."),
-    p("In addition, the results are not from a single timeframe and were scraped statically. Some senators Tweet much more often than others – and as a result, individual senators’ Tweets should be assessed carefully. "),
+    p("Once over 15% of the Tweets were manually categorized, the Naïve Bayes model performed well in predicting the category. Comparing the actual (manually-entered) labels with the predicted labels shows very few mismatches. By proxy, manually-entered categories are subject to subconscious bias. The three categories were carefully selected to maintain a bipartisan point of view. The Tweet labels \"critical,\" \"neutral,\" and \"praise\" fit objectively in those categories."),
+    p("In addition, the results are not from a single timeframe and were scraped once on a specific date. Some senators Tweet much more often than others. As a result, side-by-side senatorial rhetorical comparisons could be misleading."),
     tags$br(),
     
     tags$hr(),
@@ -314,12 +314,13 @@ ui <- fluidPage(
     p("In the future, this dashboard could be improved by:"),
     tags$ul(
       tags$li("Expanding the Twitter developer API access to allow more Tweets to be downloaded per senator"),
-      tags$li("Scraping the Tweets dynamically based on the date the dashboard is accessed"),
+      tags$li("Scraping the Tweets based on the date the dashboard is accessed"),
       tags$li("Fixing Bernie Sander’s Twitter handle to include his Tweets"),
       tags$li("Adding a date range filter to look at Tweets during a specific day, week, or month"),
-      tags$li("Adding an additional label for current events so rhetoric around a specific issue could be assessed"),
+      tags$li("Adding an additional label for current events so rhetoric around a specific issue could be assessed")
     ),
     tags$br(),
+    tags$a(href = "https://github.com/cjmasamitsu/tad-final/blob/main/masamitsu-tad-final/app.R", "Click here to see source code."),
     tags$br(),
     tags$br()
 )

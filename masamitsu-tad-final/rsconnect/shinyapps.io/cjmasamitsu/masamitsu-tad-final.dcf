@@ -5,9 +5,10 @@ account: cjmasamitsu
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6224591
-bundleId: 5865754
+bundleId: 5865821
 url: https://cjmasamitsu.shinyapps.io/masamitsu-tad-final/
-when: 1651602439.10843
-lastSyncTime: 1651602439.10845
+when: 1651603224.48686
+lastSyncTime: 1651603224.48687
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: ~$d-final-writeup.docx|tad-final-writeup.docx

@@ -3,6 +3,7 @@
 # Load Packages -----------------------------------------------------------
 
 # library(shiny)
+library(rmarkdown)
 library(tidyverse)
 library(quanteda)
 library(twitteR)
@@ -138,7 +139,7 @@ library(e1071)
 
 # Data Preparation --------------------------------------------------------
 
-sentweets <- read_csv("https://raw.githubusercontent.com/cjmasamitsu/tad-final/main/masamitsu-tad-final/sentweets.csv")
+sentweets <- read_csv("https://raw.githubusercontent.com/cjmasamitsu/tad-final/main/masamitsu-tad-final/rsconnect/sentweets.csv")
 glimpse(sentweets)
 
 # Change names to be uniform
@@ -205,7 +206,7 @@ sentweets["name"][sentweets["name"] == "Leader McConnell"] <- "Mitch McConnell"
 sentweets["name"][sentweets["name"] == "Sen. Bernie Sanders"] <- "Bernie Sanders"
 sentweets$name %>% unique(.)
 
-sentweets_corpus <- corpus(as.character(sentweets_df$text))
+sentweets_corpus <- corpus(as.character(sentweets$text))
 sentweets_dfm <- sentweets_corpus %>% 
   tokens(remove_punct = TRUE) %>% 
   dfm(tolower = TRUE, remove = stopwords("english")) %>% 

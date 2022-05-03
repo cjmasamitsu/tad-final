@@ -16,10 +16,10 @@ library(e1071)
 # Pull Tweets  ------------------------------------------------------------
 
 # Code has been hashed out, only pulled data once which requires manual inputs after original DF was created
-# api_key <- "HWVzk33XVo4NnBIeskWlldF6s"
-# api_secret_key <- "7iIOzHGP2Cr1fQpLNRhpQOh3kg0StusGAAngTZIhF8tpeGrv8j"
-# access_token <- "51381814-ZiCjRmPFpjqO9v6FyFZGKDaGdnvPCR15PBdKwdqEP"
-# access_token_secret <- "smMfC2hYy0OggQI98cQMtq9wbekNyqeza0qDN4YzwjJGY"
+# api_key <- "hidden"
+# api_secret_key <- "hidden"
+# access_token <- "hidden"
+# access_token_secret <- "hidden"
 
 # token <- create_token(
 #   app = "masamitsu-tad-final",

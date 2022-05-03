@@ -2,7 +2,7 @@
 
 # Load Packages -----------------------------------------------------------
 
-library(shiny)
+# library(shiny)
 library(tidyverse)
 library(quanteda)
 library(twitteR)

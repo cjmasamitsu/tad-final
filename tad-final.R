@@ -1,5 +1,10 @@
+---
+runtime: shiny
+output: html_document
+---
+
+# library(shiny)
 library(tidyverse)
-library(shiny)
 library(quanteda)
 library(twitteR)
 library(rtweet)
@@ -8,19 +13,19 @@ library(purrr)
 
 # Data Preparation --------------------------------------------------------
 
-#api_key <- "HWVzk33XVo4NnBIeskWlldF6s"
-#api_secret_key <- "7iIOzHGP2Cr1fQpLNRhpQOh3kg0StusGAAngTZIhF8tpeGrv8j"
-#access_token <- "51381814-ZiCjRmPFpjqO9v6FyFZGKDaGdnvPCR15PBdKwdqEP"
-#access_token_secret <- "smMfC2hYy0OggQI98cQMtq9wbekNyqeza0qDN4YzwjJGY"
+api_key <- "HWVzk33XVo4NnBIeskWlldF6s"
+api_secret_key <- "7iIOzHGP2Cr1fQpLNRhpQOh3kg0StusGAAngTZIhF8tpeGrv8j"
+access_token <- "51381814-ZiCjRmPFpjqO9v6FyFZGKDaGdnvPCR15PBdKwdqEP"
+access_token_secret <- "smMfC2hYy0OggQI98cQMtq9wbekNyqeza0qDN4YzwjJGY"
 
-#token <- create_token(
-#  app = "masamitsu-tad-final",
-#  consumer_key = api_key,
-#  consumer_secret = api_secret_key,
-#  access_token = access_token,
-#  access_secret = access_token_secret)
+token <- create_token(
+  app = "masamitsu-tad-final",
+  consumer_key = api_key,
+  consumer_secret = api_secret_key,
+  access_token = access_token,
+  access_secret = access_token_secret)
 
-#senators <- 
+senators <- 
   c("SenShelby",
     "Ttuberville",
     "lisamurkowski",
@@ -122,17 +127,18 @@ library(purrr)
     "SenJohnBarrasso")
 
 # Pull 100 tweets per Senator
-# sentweets <- get_timeline(senators, n = 1)
+sentweets <- get_timeline(senators, n = 115)
+# write_csv(sentweets, "sentweets.csv")
 
 # Drop columns of lists for corpus/dfm
-# sentweets_df <- sentweets[,-which(sapply(sentweets, class) == "list")]
+sentweets_df <- sentweets[,-which(sapply(sentweets, class) == "list")]
 
 # Create corpus and DFM
-# sentweets_corpus <- corpus(as.character(sentweets_df$text))
-# sentweets_dfm <- sentweets_corpus %>% 
-#  tokens(remove_punct = TRUE) %>% 
-#  dfm(tolower = TRUE, remove = stopwords("english")) %>% 
-#  dfm_wordstem(.)
+sentweets_corpus <- corpus(as.character(sentweets_df$text))
+sentweets_dfm <- sentweets_corpus %>% 
+tokens(remove_punct = TRUE) %>% 
+dfm(tolower = TRUE, remove = stopwords("english")) %>% 
+dfm_wordstem(.)
 
 df <- data.frame(dose=c("D0.5", "D1", "D2"),
                  len=c(4.2, 10, 29.5))

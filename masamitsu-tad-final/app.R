@@ -2,9 +2,10 @@
 
 # Load Packages -----------------------------------------------------------
 
-# library(shiny)
+library(shiny)
 library(rmarkdown)
 library(tidyverse)
+library(dplyr)
 library(quanteda)
 library(twitteR)
 library(rtweet)
@@ -233,7 +234,21 @@ results = data.frame(
 df <- select(sentweets, name, party, region, text)
 df$category <- results$Predictions
 df$category <- as.character(df$category)
-table <- df
+
+
+rep <- filter(df, party == "republican")
+dem <- filter(df, party == "democrat")
+ind <- filter(df, party == "independent")
+
+southeast <- filter(df, region == "southeast")
+west <- filter(df, region == "west")
+southwest <- filter(df, region == "southwest")
+midwest <- filter(df, region == "midwest")
+northeast <- filter(df, region == "northeast")
+
+party_choices <- c("democrat", "independent", "republican")
+region_choices <- c("midwest", "northeast", "southeast", "southwest", "west")
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -245,28 +260,22 @@ ui <- fluidPage(
   tags$br(),
   tags$br(),
     fluidRow(
-      column(4,
-             wellPanel(
-               selectInput("region", "Region", df$region %>% 
-                             append("(All)") %>% 
-                             sort()),    
-             )
+      column(4, wellPanel(
+        radioButtons("region", "Region",  choices = region_choices %>%
+                       append("(All)") %>%
+                       sort()))),
+      
+      column(4, wellPanel(
+        radioButtons("party", "Party", choices = party_choices %>% 
+                      append("(All)") %>%
+                      sort()))),
+      
+      column(4, wellPanel(
+        selectizeInput("name", "Name", df$name %>%
+                      append("(All)") %>%
+                      sort())))
       ),
-      column(4,
-             wellPanel(
-               selectInput("party", "Party", df$party %>% 
-                             append("(All)") %>% 
-                             sort()),
-             )
-      ),
-      column(4,
-             wellPanel(
-               selectInput("name", "Name", df$name %>% 
-                             append("(All)") %>% 
-                             sort()),
-             )
-      ), 
-    ),
+
     
     # Bar Chart
     tags$br(),
@@ -278,7 +287,9 @@ ui <- fluidPage(
     
     h4("Senatorial Tweets by Rhetoric"),
     plotOutput("categoryBar1"),
-    dataTableOutput("table"),
+    tags$br(),
+    tags$br(),
+    DTOutput("table"),
     tags$br(),
     tags$br(),
     tags$br(),
@@ -331,14 +342,31 @@ ui <- fluidPage(
 )
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
-
+server <- function(input, output, session) {
+  
+  observeEvent(ignoreInit = TRUE, c(
+    input$party,
+    input$region
+  ),
+  {
+    if (input$party == "(All)" &  input$region != "(All") {
+      df <- df %>% filter(region == input$region)
+    } else if (input$party != "(All)" & input$region == "(All)") {
+      df <- df %>% filter(party == input$party)
+    } else if (input$party != "(All)" & input$region != "(All") {
+      df <- df %>% filter(party == input$party) %>% filter(region == input$region)
+    }
+    
+    updateSelectizeInput(session, input = "name",
+                         choices = unique(df$name) %>% append("(All)") %>% sort())
+  })
+  
     output$categoryBar1 <- renderPlot({
       
       if (input$name != "(All)") {
         df <- filter(df, name == input$name)
       }
-  
+      
       if (input$party != "(All)") {
         df <- filter(df, party == input$party)
       }
@@ -354,16 +382,33 @@ server <- function(input, output) {
         ylab("Number of Tweets") +
         labs(caption = "Data from Twitter | Collected on April 28,2022 by Casey Masamitsu") +
         theme_minimal()
-      
-  })
-    output$table <- renderDataTable(table)
     
+  })
+    
+    output$table <- renderDT({
+      
+      if (input$name != "(All)") {
+        df <- filter(df, name == input$name)
+      }
+      
+      if (input$party != "(All)") {
+        df <- filter(df, party == input$party)
+      }
+      
+      if (input$region != "(All)") {
+        df <- filter(df, region == input$region)
+      }
+      
+      datatable(df, filter = "top")
+      }
+      )
+                             
+    
+
 }
     
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
-
 
 
